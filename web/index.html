@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flutter Web App</title>
+
+  <!-- Add the Google Sign-In Client ID -->
+  <meta name="google-signin-client_id" content="217661376641-tbb780epekipucjl93lnrjnq99k25iuo.apps.googleusercontent.com">
+
+  <!-- Firebase Initialization Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXOlcvUwyavAiNRoBbWyEs_l2DOXKHXvo",
+      authDomain: "pixychain.firebaseapp.com",
+      projectId: "pixychain",
+      storageBucket: "pixychain.firebasestorage.app",
+      messagingSenderId: "514575012631",
+      appId: "1:514575012631:web:3d453c901b44077f7fdd52"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider(); // Expose function to global scope
+  </script>
+
+  <style>
+    /* Loading screen styles */
+    #loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: black;
+    }
+
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Flutter will attach the app here -->
+  <script src="main.dart.js" type="application/javascript"></script>
+
+  <script>
+    window.addEventListener('load', function () {
+      // Hide the loading screen once the page is loaded
+      const loadingDiv = document.getElementById('loading');
+      if (loadingDiv) {
+        loadingDiv.style.display = 'none';
+      }
+    });
+  </script>
+  <script>
+    async function connectMetaMask() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          return accounts[0]; // Return wallet address
+        } catch (error) {
+          console.error("MetaMask Connection Failed:", error);
+          return null;
+        }
+      } else {
+        alert("MetaMask is not installed!");
+        return null;
+      }
+    }
+  </script>
+  
+</body>
+</html>
